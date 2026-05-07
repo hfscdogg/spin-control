@@ -1,0 +1,114 @@
+# Spin Control configuration
+
+models:
+  scoring: claude-haiku-4-5
+  drafting: claude-opus-4-7
+
+scoring:
+  # Each of 4 axes scored 1-10. Total max = 40.
+  # Articles with total >= threshold move to drafting.
+  threshold: 28
+  axes:
+    - relevance
+    - timeliness
+    - perspective
+    - traffic
+
+ingestion:
+  # Articles older than this are ignored even if they appear in a feed.
+  max_age_hours: 36
+  # Max articles to fetch per source per run (cap before scoring).
+  per_source_limit: 25
+  # Max total articles to score per run (caps Claude spend).
+  max_to_score: 80
+
+digest:
+  # Cap on articles in the digest email.
+  max_articles: 8
+  subject_prefix: "Spin Control Daily Digest"
+
+# RSS feed sources. `category` is informational and surfaces in the digest.
+rss_sources:
+  - name: "Wall Street Journal - Tech"
+    url: "https://feeds.a.dj.com/rss/RSSWSJD.xml"
+    category: tech
+  - name: "Wall Street Journal - Business"
+    url: "https://feeds.a.dj.com/rss/RSSWorldNews.xml"
+    category: business
+  - name: "New York Times - Technology"
+    url: "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"
+    category: tech
+  - name: "New York Times - Business"
+    url: "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"
+    category: business
+  - name: "CE Pro"
+    url: "https://www.cepro.com/feed/"
+    category: residential_av
+  - name: "Residential Systems"
+    url: "https://www.residentialsystems.com/feed"
+    category: residential_av
+  - name: "Residential Tech Today"
+    url: "https://restechtoday.com/feed/"
+    category: residential_av
+  - name: "Security Sales and Integration"
+    url: "https://www.securitysales.com/feed/"
+    category: security
+  - name: "SDM Magazine"
+    url: "https://www.sdmmag.com/rss/topic/2632-articles"
+    category: security
+  - name: "The Verge"
+    url: "https://www.theverge.com/rss/index.xml"
+    category: tech
+  - name: "Axios - Technology"
+    url: "https://api.axios.com/feed/technology"
+    category: tech
+  - name: "Axios - Business"
+    url: "https://api.axios.com/feed/business"
+    category: business
+  - name: "Richmond BizSense"
+    url: "https://richmondbizsense.com/feed/"
+    category: local_commercial
+
+# NewsAPI is optional. If NEWSAPI_KEY is unset, NewsAPI is skipped silently.
+newsapi:
+  enabled: true
+  queries:
+    - "smart home installation"
+    - "custom home integration"
+    - "AV integrator"
+    - "home automation"
+    - "Ketra lighting"
+    - "circadian lighting"
+    - "Lutron luxury home"
+    - "security camera AI"
+    - "luxury home builder Virginia"
+  language: en
+  # Hours back from now for NewsAPI articles
+  from_hours: 36
+
+# Themes Claude uses to judge relevance. Edit freely.
+relevance_themes:
+  - "Smart home technology and home automation"
+  - "Residential AV and custom integration"
+  - "Commercial AV and workplace technology"
+  - "Security cameras, surveillance, AI detection (false positives, privacy)"
+  - "AI in physical security or smart buildings"
+  - "Lighting, circadian wellness, Ketra-adjacent topics"
+  - "Networking and connectivity for high-net-worth homes"
+  - "Privacy and data concerns in connected homes"
+  - "Builder, architect, and luxury construction trends"
+  - "HNW lifestyle and luxury tech"
+
+# Keyword to URL mapping for CTAs in drafted posts.
+# Phase 1: every keyword resolves to the homepage. Update later with real
+# pages from getlivewire.com.
+cta_urls:
+  default: "https://getlivewire.com/"
+  smart_home: "https://getlivewire.com/"
+  commercial: "https://getlivewire.com/"
+  security: "https://getlivewire.com/"
+  lighting: "https://getlivewire.com/"
+  networking: "https://getlivewire.com/"
+  audio_video: "https://getlivewire.com/"
+  privacy: "https://getlivewire.com/"
+  contact: "https://getlivewire.com/"

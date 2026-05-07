@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/user/spin-control/**)",
+      "Edit(//home/user/spin-control/**)",
+      "Write(//home/user/spin-control/**)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)",
+      "Bash(pytest:*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(sqlite3:*)"
+    ],
+    "deny": [
+      "Read(//home/user/spin-control/.env)",
+      "Read(//home/user/spin-control/gmail_credentials.json)",
+      "Read(//home/user/spin-control/gmail_token.json)",
+      "Read(//home/user/spin-control/spin_control.db)"
+    ]
+  }
+}
