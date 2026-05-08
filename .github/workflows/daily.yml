@@ -49,8 +49,22 @@ jobs:
             spin-control-db-v1-
 
       - name: Run Spin Control
+        env:
+          SKIP_SEND_INPUT: ${{ github.event.inputs.skip_send }}
         run: |
-          python main.py all ${{ github.event.inputs.skip_send == 'true' && '--skip-send' || '' }}
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY is not configured; skipping Spin Control run."
+            echo "Add the secret under repo Settings > Secrets and variables > Actions, then re-run."
+            exit 0
+          fi
+          flags=""
+          if [ "$SKIP_SEND_INPUT" = "true" ]; then
+            flags="--skip-send"
+          elif [ "$DIGEST_EMAIL_BACKEND" = "sendgrid" ] && [ -z "$SENDGRID_API_KEY" ]; then
+            echo "::warning::SENDGRID_API_KEY is not set; running ingest/score/draft only (no digest send)."
+            flags="--skip-send"
+          fi
+          python main.py all $flags
 
       - name: Save SQLite cache
         if: always()
